@@ -1,25 +1,41 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app_chat_proxy/router/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
+import 'application/utils/app_context_key.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final _appRouter = AppRouter();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return MaterialApp.router(
+      key: AppKeys.appKey,
+      routerConfig: _appRouter.config(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) {
+        print("Build line: 26");
+        return KeyedSubtree(
+          key: AppKeys.routeKey,
+          child: child!,
+        );
+      },
     );
   }
 }
@@ -60,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "GET",
       Uri(
           scheme: "http",
-          host: "192.168.1.40",
+          host: "192.168.1.167",
           port: 14433,
           path: "/chat",
           queryParameters: {"message": question}),
