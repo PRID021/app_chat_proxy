@@ -26,13 +26,13 @@ class UserRepositoryImp extends UserRepository {
   }
 
   @override
-  bool isDarkMode() {
+  bool? isDarkMode() {
     try {
       final isDarkMode =
           userReferenceDataStorage.read<bool>(UserReferenceKeys.lightMode);
       return isDarkMode;
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 
@@ -48,7 +48,7 @@ class UserRepositoryImp extends UserRepository {
 
   @override
   Future<bool> setUserReferMode(bool isDarkMode) async {
-    final success = await userReferenceDataStorage.write<bool>(
+    final success = await userReferenceDataStorage.write(
         UserReferenceKeys.lightMode, isDarkMode);
     return success;
   }

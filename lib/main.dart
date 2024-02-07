@@ -1,39 +1,56 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_chat_proxy/router/app_router.dart';
+import 'package:app_chat_proxy/application/utils/di.dart';
+import 'package:app_chat_proxy/router/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import 'application/utils/app_context_key.dart';
+import 'domain/repositories/user_repository/di.dart';
+import 'eager_initialization.dart';
 
 void main() {
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  final _appRouter = AppRouter();
-
-  MyApp({super.key});
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      key: AppKeys.appKey,
-      routerConfig: _appRouter.config(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      builder: (context, child) {
-        print("Build line: 26");
-        return KeyedSubtree(
-          key: AppKeys.routeKey,
-          child: child!,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return EagerInitialization(
+      builder: (context, _) {
+        late ThemeMode themeMode;
+        final isDarkMode =
+            ref.watch(userReferenceRepositoryProvider).isDarkMode();
+        if (isDarkMode == true) {
+          themeMode = ThemeMode.dark;
+        }
+        if (isDarkMode == false) {
+          themeMode = ThemeMode.light;
+        }
+        if (isDarkMode == null) {
+          themeMode = ThemeMode.system;
+        }
+        return MaterialApp.router(
+          key: ref.read(appKeysProvider).appKey,
+          routerConfig: ref.watch(appRouterProvider).config(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          themeMode: themeMode,
+          darkTheme: ThemeData.dark(),
+          builder: (context, child) {
+            return KeyedSubtree(
+              key: ref.read(appKeysProvider).routeKey,
+              child: child!,
+            );
+          },
         );
       },
     );

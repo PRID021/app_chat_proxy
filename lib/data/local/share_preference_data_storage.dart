@@ -6,6 +6,7 @@ class ShareReferenceDataStorage extends DataStorage {
       ShareReferenceDataStorage._internal();
   ShareReferenceDataStorage._internal();
 
+  static ShareReferenceDataStorage get instance => _instance;
   // Obtain shared preferences.
   SharedPreferences? _prefs;
 
@@ -29,26 +30,27 @@ class ShareReferenceDataStorage extends DataStorage {
       throw "ShareReferenceDataStorage not initialize";
     }
     final prefs = (_prefs as SharedPreferences);
-    if (T is int) {
+    if (T == int) {
       return await prefs.setInt(key, data as int);
     }
-    if (T is bool) {
+    if (T == bool) {
       return await prefs.setBool(key, data as bool);
     }
-    if (T is double) {
+    if (T == double) {
       return await prefs.setDouble(key, data as double);
     }
-    if (T is String) {
+    if (T == String) {
       return await prefs.setString(key, data as String);
     }
-    if (T is List<String>) {
+    if (T == List<String>) {
       return await prefs.setStringList(key, data as List<String>);
     }
-    throw UnsupportedError("${T.runtimeType} is not supported");
+    throw UnsupportedError("$T is not supported");
   }
 
   @override
   Future init() async {
+    print("SharedPreferences init");
     _prefs = _instance._prefs ?? await SharedPreferences.getInstance();
   }
 }

@@ -5,7 +5,7 @@ import '../../../data/local/data_storage.dart';
 abstract class UserRepository {
   Locale getUserLocale();
   Future<bool> setUserReferLocale(Locale locale);
-  bool isDarkMode();
+  bool? isDarkMode();
   Future<bool> setUserReferMode(bool isDarkMode);
   final DataStorage userReferenceDataStorage;
   UserRepository({required this.userReferenceDataStorage});
