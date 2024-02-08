@@ -12,6 +12,6 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: OnBoardRoute.page, path: "/"),
         AutoRoute(page: LoginRoute.page, path: "/login"),
-        AutoRoute(page: HomeRoute.page,path: "/home")
+        AutoRoute(page: HomeRoute.page, path: "/home")
       ];
 }

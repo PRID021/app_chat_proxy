@@ -10,8 +10,6 @@ class QuestionAnswer {
   QuestionAnswer({required this.question, required this.answer});
 }
 
-
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 

@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../router/di.dart';
 
-
-
 extension AppLocalizationsExt on BuildContext {
   AppLocalizations appLocalizations(WidgetRef ref) =>
       AppLocalizations.of(this) ??

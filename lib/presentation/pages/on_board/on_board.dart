@@ -16,24 +16,22 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer(
-        builder: (context,ref,child) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(context.appLocalizations(ref).welcomeOnBoard),
-              ),
-              ElevatedButton(
-                onPressed: () => context.router.replaceAll([const LoginRoute()]),
-                child: Text(context.appLocalizations(ref).signIn),
-              ),
-            ],
-          );
-        }
-      ),
+      body: Consumer(builder: (context, ref, child) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(context.appLocalizations(ref).welcomeOnBoard),
+            ),
+            ElevatedButton(
+              onPressed: () => context.router.replaceAll([const LoginRoute()]),
+              child: Text(context.appLocalizations(ref).signIn),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

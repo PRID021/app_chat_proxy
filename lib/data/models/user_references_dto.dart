@@ -1,4 +1,3 @@
-
 import '../../domain/entities/user_references.dart';
 
 class UserReferencesDTO extends UserReferences {
