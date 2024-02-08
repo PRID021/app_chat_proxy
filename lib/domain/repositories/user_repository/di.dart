@@ -1,8 +1,7 @@
-import 'package:app_chat_proxy/domain/repositories/user_repository/user_repository_imp.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../data/local/di.dart';
+import '../../../data/source_storage/local/di.dart';
 import 'user_repository.dart';
+import '../../../data/repositories/user_repository/user_repository_imp.dart';
 
 final Provider<UserRepository> userReferenceRepositoryProvider =
     Provider((ref) {

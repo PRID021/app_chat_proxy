@@ -1,4 +1,4 @@
-import 'package:app_chat_proxy/application/utils/l10n_ext.dart';
+import 'package:app_chat_proxy/utils/l10n_ext.dart';
 import 'package:app_chat_proxy/router/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';

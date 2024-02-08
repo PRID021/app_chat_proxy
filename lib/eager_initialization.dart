@@ -1,4 +1,4 @@
-import 'package:app_chat_proxy/data/local/di.dart';
+import 'package:app_chat_proxy/data/source_storage/local/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,7 +11,6 @@ class EagerInitialization extends ConsumerWidget {
     // Eagerly initialize providers by watching them.
     // By using "watch", the provider will stay alive and not be disposed.
     final dataStorage = ref.watch(dataStorageProvider);
-
     final doneInFuture = Future.wait([
       dataStorage.init(),
     ]);

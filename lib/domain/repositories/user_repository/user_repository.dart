@@ -1,9 +1,9 @@
 import 'dart:ui';
 
-import '../../../data/local/data_storage.dart';
+import '../../../data/source_storage/local/data_storage.dart';
 
 abstract class UserRepository {
-  Locale getUserLocale();
+  Locale? getUserLocale();
   Future<bool> setUserReferLocale(Locale locale);
   bool? isDarkMode();
   Future<bool> setUserReferMode(bool isDarkMode);

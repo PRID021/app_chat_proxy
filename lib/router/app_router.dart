@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../application/pages/home/home.dart';
-import '../application/pages/login/login.dart';
-import '../application/pages/on_board/on_board.dart';
+import '../presentation/pages/home/home.dart';
+import '../presentation/pages/login/login.dart';
+import '../presentation/pages/on_board/on_board.dart';
 
 part 'app_router.gr.dart';
 

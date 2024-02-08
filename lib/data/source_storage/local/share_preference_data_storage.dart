@@ -1,4 +1,4 @@
-import 'package:app_chat_proxy/data/local/data_storage.dart';
+import 'package:app_chat_proxy/data/source_storage/local/data_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShareReferenceDataStorage extends DataStorage {
@@ -20,7 +20,7 @@ class ShareReferenceDataStorage extends DataStorage {
       final value = (prefs.get(key) as T);
       return value;
     } catch (e) {
-      throw "Can't find value for $key with type ${T.runtimeType} with execption : $e";
+      throw "Can't find value for $key with type $T with exception : $e";
     }
   }
 
@@ -50,7 +50,6 @@ class ShareReferenceDataStorage extends DataStorage {
 
   @override
   Future init() async {
-    print("SharedPreferences init");
     _prefs = _instance._prefs ?? await SharedPreferences.getInstance();
   }
 }

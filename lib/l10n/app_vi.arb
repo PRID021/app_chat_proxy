@@ -1,5 +1,7 @@
 {
     "helloWorld": "Xin chào",
     "welcomeOnBoard": "Chào mừng bạn đến với chúng tôi!",
-    "signIn": "Đăng nhập"
+    "signIn": "Đăng nhập",
+    "defaultLanguage": "Ngôn ngữ mặc định",
+    "switchThemeMode": "Đổi chế độ sáng"
 }

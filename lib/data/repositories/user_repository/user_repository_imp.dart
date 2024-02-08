@@ -2,13 +2,16 @@ import 'dart:ui';
 
 import 'package:app_chat_proxy/domain/repositories/user_repository/user_repository.dart';
 
-import 'user_reference_keys.dart';
+abstract class UserReferenceKeys {
+  static String localeKey = "USER_LOCALE";
+  static String lightMode = "IS_DARK_MODE";
+}
 
 class UserRepositoryImp extends UserRepository {
   UserRepositoryImp({required super.userReferenceDataStorage});
 
   @override
-  Locale getUserLocale() {
+  Locale? getUserLocale() {
     try {
       final localeCode =
           userReferenceDataStorage.read<String>(UserReferenceKeys.localeKey);
@@ -19,7 +22,7 @@ class UserRepositoryImp extends UserRepository {
         return const Locale('en', 'EN');
       }
     } catch (e) {
-      rethrow;
+      return null;
     }
 
     throw Error();

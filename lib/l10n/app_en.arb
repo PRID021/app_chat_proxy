@@ -4,5 +4,7 @@
       "description": "The conventional newborn programmer greeting"
     },
     "welcomeOnBoard":"Welcome to onboarding with us",
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "defaultLanguage": "Default Language",
+    "switchThemeMode": "Switch theme mode"
   }
