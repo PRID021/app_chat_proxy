@@ -1,22 +1,28 @@
 import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:app_chat_proxy/router/di.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'di.dart';
 import 'eager_initialization.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
+final analyticsProvider = Provider((ref) => FirebaseAnalytics.instance);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  final app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final analytics = FirebaseAnalytics.instanceFor(app: app);
+  final analyticsProvider = Provider((ref) => analytics);
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [analyticsProvider],
+      child: const MyApp(),
     ),
   );
 }

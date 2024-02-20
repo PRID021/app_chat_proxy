@@ -20,6 +20,10 @@ dependencies:
   riverpod_annotation: ^2.3.4
   logger: ^2.0.2+1
   firebase_core: ^2.25.4
+  firebase_analytics: ^10.8.6
+  dio: ^5.4.1
+  meta: ^1.10.0
+  connectivity: ^3.0.6
 
 dev_dependencies:
   flutter_test:

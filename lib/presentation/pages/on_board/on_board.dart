@@ -1,8 +1,10 @@
-import 'package:app_chat_proxy/utils/l10n_ext.dart';
 import 'package:app_chat_proxy/router/app_router.dart';
+import 'package:app_chat_proxy/utils/l10n_ext.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../main.dart';
 
 @RoutePage()
 class OnBoardScreen extends ConsumerStatefulWidget {
@@ -26,7 +28,13 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
               child: Text(context.appLocalizations(ref).welcomeOnBoard),
             ),
             ElevatedButton(
-              onPressed: () => context.router.replaceAll([const LoginRoute()]),
+              onPressed: () async {
+                final nav = context.router;
+                await ref.read(analyticsProvider).logLogin(
+                    loginMethod: "InAppLogin2",
+                    parameters: {"time": DateTime.now().toIso8601String()});
+                nav.replaceAll([const LoginRoute()]);
+              },
               child: Text(context.appLocalizations(ref).signIn),
             ),
           ],
