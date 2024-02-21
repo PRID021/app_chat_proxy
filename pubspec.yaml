@@ -25,6 +25,10 @@ dependencies:
   meta: ^1.10.0
   connectivity: ^3.0.6
   gap: ^3.0.1
+  flutter_markdown: ^0.6.20
+  flutter_highlighter: ^0.1.1
+  flutter_highlight: ^0.7.0
+
 
 dev_dependencies:
   flutter_test:

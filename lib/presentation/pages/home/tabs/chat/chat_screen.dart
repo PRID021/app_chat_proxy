@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app_chat_proxy/di.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
+
+import 'code_element_builder.dart';
 
 class QuestionAnswer {
   final String question;
@@ -42,11 +46,15 @@ class _ChatScreenState extends State<ChatScreen> {
       "GET",
       Uri(
           scheme: "http",
-          host: "192.168.1.167",
+          host: "10.10.10.16",
           port: 14433,
           path: "/chat",
           queryParameters: {"message": question}),
     );
+    request.headers.addAll({
+      'Authorization': 'Bearer $bearToken',
+    });
+
     unawaited(request.sink.close());
     final response = await request.send();
     response.stream.listen((value) {
@@ -119,10 +127,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                   borderRadius: BorderRadius.circular(8)),
                               margin: const EdgeInsets.only(left: 8),
                               padding: const EdgeInsets.all(16),
-                              child: Text(
-                                "${conversationChats[idx].answer}",
-                                textAlign: TextAlign.justify,
-                              ),
+                              child: MarkdownBody(
+                                  shrinkWrap: true,
+                                  builders: {
+                                    'code': CodeElementBuilder(),
+                                  },
+                                  data:
+                                      conversationChats[idx].answer.toString()),
                             ),
                           ),
                           const Padding(

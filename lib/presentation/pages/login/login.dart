@@ -26,8 +26,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     final notifier = ref.listen(authenticateProvider, (pre, next) {
       if (next == AuthStatus.authenticated) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$next')));
         context.router.replaceAll([const HomeRoute()]);
       }
     });

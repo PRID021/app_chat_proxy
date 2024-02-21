@@ -9,6 +9,7 @@ import '../../../core/network/http_error.dart';
 import '../../../core/network/internet_supervisor.dart';
 import '../../../core/network/sender.dart';
 import '../../../dev/logger.dart';
+import '../../../di.dart';
 
 enum AuthStatus {
   unAuthenticate,
@@ -52,7 +53,9 @@ class AuthenticateNotifier extends Notifier<AuthStatus> {
     final rs = await authApi.authenticate(userName, password);
     logger.w(53);
     if (rs is Success) {
+      bearToken = rs.getOrThrow().accessToken;
       logger.w(rs);
+
       state = AuthStatus.authenticated;
     } else {
       state = AuthStatus.unAuthenticate;
