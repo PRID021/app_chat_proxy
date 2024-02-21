@@ -1,15 +1,10 @@
-import 'package:app_chat_proxy/core/common/environment.dart';
-import 'package:app_chat_proxy/core/common/result.dart';
-import 'package:app_chat_proxy/data/remote/auth_api/auth_api.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/common/environment.dart';
 import '../../../core/network/http_api_config.dart';
-import '../../../core/network/http_error.dart';
-import '../../../core/network/internet_supervisor.dart';
-import '../../../core/network/sender.dart';
+import '../../../data/repositories/auth_repository/di.dart';
 import '../../../dev/logger.dart';
-import '../../../di.dart';
 
 enum AuthStatus {
   unAuthenticate,
@@ -26,17 +21,7 @@ class AuthHttpApiConfig extends HttpApiConfig {
   }
 }
 
-final authApiProvider = Provider(
-  (ref) => AuthApi(
-    sender: Sender(
-      internetSupervisor: ref.watch(internetSupervisorProvider),
-      httpApiConfig: AuthHttpApiConfig(path: "/token"),
-      errorProcessing: ref.read(errorProcessingProvider),
-    ),
-  ),
-);
-
-final authenticateProvider =
+final authenticateNotifierProvider =
     NotifierProvider<AuthenticateNotifier, AuthStatus>(() {
   return AuthenticateNotifier();
 });
@@ -44,21 +29,30 @@ final authenticateProvider =
 class AuthenticateNotifier extends Notifier<AuthStatus> {
   @override
   AuthStatus build() {
-    return AuthStatus.unAuthenticate;
+    final authRepository = ref.read(authRepositoryProvider);
+    final token = authRepository.storageToken();
+    if (token == null) {
+      return AuthStatus.unAuthenticate;
+    }
+    return AuthStatus.authenticated;
   }
 
   void performAuthenticate(
       {required String userName, required String password}) async {
-    final authApi = ref.read(authApiProvider);
-    final rs = await authApi.authenticate(userName, password);
-    logger.w(53);
-    if (rs is Success) {
-      bearToken = rs.getOrThrow().accessToken;
-      logger.w(rs);
-
+    final authRepository = ref.read(authRepositoryProvider);
+    final rs = await authRepository.authenticate(
+        userName: userName, password: password);
+    logger.w(rs);
+    if (rs != null) {
       state = AuthStatus.authenticated;
     } else {
       state = AuthStatus.unAuthenticate;
     }
+  }
+
+  void clearStorage() {
+    ref.read(authRepositoryProvider).clearStorage().then((value) {
+      state = AuthStatus.unAuthenticate;
+    });
   }
 }

@@ -4,9 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ShareReferenceDataStorage extends DataStorage {
   static final ShareReferenceDataStorage _instance =
       ShareReferenceDataStorage._internal();
+
   ShareReferenceDataStorage._internal();
 
   static ShareReferenceDataStorage get instance => _instance;
+
   // Obtain shared preferences.
   SharedPreferences? _prefs;
 
@@ -51,5 +53,10 @@ class ShareReferenceDataStorage extends DataStorage {
   @override
   Future init() async {
     _prefs = _instance._prefs ?? await SharedPreferences.getInstance();
+  }
+
+  @override
+  Future<bool> delete(String key) {
+    return _prefs!.remove(key);
   }
 }

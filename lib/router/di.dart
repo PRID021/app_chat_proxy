@@ -7,10 +7,10 @@ import 'app_router.dart';
 final Provider<AppKeys> appKeysProvider = Provider((ref) {
   return AppChatProxyKeys(
     appKey: GlobalKey(),
-    routeKey: GlobalKey(),
+    navKey: GlobalKey<NavigatorState>(),
   );
 });
 
 final Provider<AppRouter> appRouterProvider = Provider((ref) {
-  return AppRouter();
+  return AppRouter(navigatorKey: ref.read(appKeysProvider).navKey);
 });

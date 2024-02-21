@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import '../../../core/common/environment.dart';
-import '../../../core/network/http_api_config.dart';
+import '../../../../core/common/environment.dart';
+import '../../../../core/network/http_api_config.dart';
 
 class AuthHttpApiConfig implements HttpApiConfig {
   @override

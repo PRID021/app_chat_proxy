@@ -15,6 +15,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
       language = lg.substring(9);
     }
     return Scrollbar(
+      controller: ScrollController(),
       thumbVisibility: true,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

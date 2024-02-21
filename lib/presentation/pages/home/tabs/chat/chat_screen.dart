@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_chat_proxy/di.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../data/repositories/auth_repository/di.dart';
 import 'code_element_builder.dart';
 
 class QuestionAnswer {
@@ -17,16 +18,16 @@ class QuestionAnswer {
 }
 
 @RoutePage()
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  ConsumerState<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends ConsumerState<ChatScreen> {
   final List<QuestionAnswer> conversationChats = [];
   final TextEditingController textEditingController = TextEditingController();
 
@@ -46,13 +47,14 @@ class _ChatScreenState extends State<ChatScreen> {
       "GET",
       Uri(
           scheme: "http",
-          host: "10.10.10.16",
+          host: "192.168.1.40",
           port: 14433,
           path: "/chat",
           queryParameters: {"message": question}),
     );
     request.headers.addAll({
-      'Authorization': 'Bearer $bearToken',
+      'Authorization':
+          'Bearer ${ref.read(authRepositoryProvider).storageToken()?.accessToken}',
     });
 
     unawaited(request.sink.close());

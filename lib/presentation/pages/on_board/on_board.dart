@@ -4,8 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../main.dart';
-
 @RoutePage()
 class OnBoardScreen extends ConsumerStatefulWidget {
   const OnBoardScreen({super.key});
@@ -28,9 +26,8 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
               child: Text(context.appLocalizations(ref).welcomeOnBoard),
             ),
             ElevatedButton(
-              onPressed: ()  {
-                final nav = context.router;
-                nav.replaceAll([const LoginRoute()]);
+              onPressed: () {
+                context.router.replaceAll([const LoginRoute()]);
               },
               child: Text(context.appLocalizations(ref).signIn),
             ),

@@ -24,7 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final userController = TextEditingController();
     final passwordController = TextEditingController();
 
-    final notifier = ref.listen(authenticateProvider, (pre, next) {
+    final notifier = ref.listen(authenticateNotifierProvider, (pre, next) {
       if (next == AuthStatus.authenticated) {
         context.router.replaceAll([const HomeRoute()]);
       }
@@ -34,7 +34,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         backgroundColor: Colors.grey,
         title: Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            final notifier = ref.watch(authenticateProvider);
+            final notifier = ref.watch(authenticateNotifierProvider);
             return Text(notifier.toString());
           },
         ),
@@ -77,7 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final authNotifier =
-                        ref.read(authenticateProvider.notifier);
+                        ref.read(authenticateNotifierProvider.notifier);
                     authNotifier.performAuthenticate(
                         userName: userController.text,
                         password: passwordController.text);

@@ -1,5 +1,8 @@
 import 'package:app_chat_proxy/dev/logger.dart';
+import 'package:app_chat_proxy/presentation/pages/login/authenticate_provider.dart';
+import 'package:app_chat_proxy/router/app_router.dart';
 import 'package:app_chat_proxy/router/di.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +34,9 @@ class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, ref) {
     return EagerInitialization(
-      builder: (context, _) {
+      builder: (context, ref) {
         late ThemeMode themeMode;
         final userReferences = ref.watch(userReferencesNotifierProvider);
         if (userReferences.isDarkMode == true) {
@@ -46,8 +49,12 @@ class MyApp extends ConsumerWidget {
           themeMode = ThemeMode.system;
         }
         logger.d(userReferences.isDarkMode);
+        final authStatus = ref.watch(authenticateNotifierProvider);
         return MaterialApp.router(
-          routerConfig: ref.watch(appRouterProvider).config(),
+          routerConfig: ref.watch(appRouterProvider).config(
+              initialRoutes: authStatus == AuthStatus.authenticated
+                  ? [const HomeRoute()]
+                  : []),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themeMode,
@@ -55,8 +62,22 @@ class MyApp extends ConsumerWidget {
           darkTheme: ThemeData.dark(),
           builder: (context, child) {
             return KeyedSubtree(
-              key: ref.read(appKeysProvider).routeKey,
-              child: child ?? const SizedBox.shrink(),
+              child: Consumer(
+                  child: child,
+                  builder: (context, ref, child) {
+                    ref.listen(authenticateNotifierProvider, (_, authStatus) {
+                      if (authStatus == AuthStatus.unAuthenticate) {
+                        ref
+                            .read(appKeysProvider)
+                            .navKey
+                            ?.currentContext!
+                            .router
+                            .replaceAll([const LoginRoute()]);
+                      }
+                      logger.w("Auth Status Changed");
+                    });
+                    return child ?? const SizedBox.shrink();
+                  }),
             );
           },
         );
