@@ -26,7 +26,7 @@ final appEnv = AppEnvironmentData();
 class AppEnvironmentData extends EnvironmentData<String> {
   @override
   String dev() {
-    return "http://localhost:14433";
+    return "http://10.10.10.16:14433";
   }
 
   @override

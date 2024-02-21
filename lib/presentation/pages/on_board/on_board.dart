@@ -28,11 +28,8 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
               child: Text(context.appLocalizations(ref).welcomeOnBoard),
             ),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: ()  {
                 final nav = context.router;
-                await ref.read(analyticsProvider).logLogin(
-                    loginMethod: "InAppLogin2",
-                    parameters: {"time": DateTime.now().toIso8601String()});
                 nav.replaceAll([const LoginRoute()]);
               },
               child: Text(context.appLocalizations(ref).signIn),

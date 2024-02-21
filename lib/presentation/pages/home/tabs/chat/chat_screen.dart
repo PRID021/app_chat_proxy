@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class QuestionAnswer {
   final String question;
@@ -10,16 +12,17 @@ class QuestionAnswer {
   QuestionAnswer({required this.question, required this.answer});
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+@RoutePage()
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ChatScreenState extends State<ChatScreen> {
   final List<QuestionAnswer> conversationChats = [];
   final TextEditingController textEditingController = TextEditingController();
 
