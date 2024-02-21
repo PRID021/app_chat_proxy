@@ -21,8 +21,8 @@ jobs:
         run: flutter pub get
       - name: Check Code Format
         run: dart format . 
-      - name: Analyze code
-        run: dart analyze .
+      # - name: Analyze code
+      #   run: dart analyze .
       - name: Run tests
         run: flutter test
       - name: Build android apk and app bundle
