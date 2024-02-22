@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'chat-app-proxy.appspot.com',
     iosBundleId: 'com.example.appChatProxy',
   );
-
 }
