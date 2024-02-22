@@ -29,8 +29,10 @@ dependencies:
   flutter_highlighter: ^0.1.1
   flutter_highlight: ^0.7.0
   lite_rolling_switch: ^1.0.1
-
-
+  flutter_native_splash: ^2.3.10
+  package_info_plus: ^5.0.1
+  flutter_animate: ^4.5.0
+  sentry_flutter: ^7.16.1
 
 dev_dependencies:
   flutter_test:
@@ -42,12 +44,6 @@ dev_dependencies:
   custom_lint: ^0.6.0
   riverpod_lint: ^2.3.9
   flutter_launcher_icons: "^0.13.1"
-
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icon/app_icon.png"
-  min_sdk_android: 21
 
 flutter:
   uses-material-design: true

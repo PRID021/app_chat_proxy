@@ -8,26 +8,37 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'di.dart';
 import 'eager_initialization.dart';
 import 'firebase_options.dart';
 
 final analyticsProvider = Provider((ref) => FirebaseAnalytics.instance);
+late final PackageInfo packageInfo;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  packageInfo = await PackageInfo.fromPlatform();
   final app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final analytics = FirebaseAnalytics.instanceFor(app: app);
   final analyticsProvider = Provider((ref) => analytics);
-  runApp(
-    ProviderScope(
-      overrides: [analyticsProvider],
-      child: const MyApp(),
-    ),
-  );
+  await SentryFlutter.init((options) {
+    options.dsn =
+        'https://3ed1a9d63b4f1fec38f7592845d15296@o4506788251893760.ingest.sentry.io/4506788288004096';
+    // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+    // We recommend adjusting this value in production.
+    options.tracesSampleRate = 1.0;
+  },
+      appRunner: () => runApp(
+            ProviderScope(
+              overrides: [analyticsProvider],
+              child: const MyApp(),
+            ),
+          ));
 }
 
 class MyApp extends ConsumerWidget {
@@ -36,6 +47,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return EagerInitialization(
+      key: ref.read(appKeysProvider).appKey,
       builder: (context, ref) {
         late ThemeMode themeMode;
         final userReferences = ref.watch(userReferencesNotifierProvider);
