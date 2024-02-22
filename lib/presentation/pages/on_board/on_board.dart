@@ -21,6 +21,20 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
   String version = packageInfo.version;
   String buildNumber = packageInfo.buildNumber;
 
+  Widget title = const Text(
+    'Welcome to on board with us.',
+    style: TextStyle(
+      fontWeight: FontWeight.w900,
+      fontSize: 28,
+      color: Color(0xFF666870),
+      height: 1,
+      letterSpacing: -1,
+    ),
+  );
+
+  // here's an interesting little trick, we can nest Animate to have
+  // effects that repeat and ones that only run once on the same item:
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +44,21 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
+              const Spacer(
+                flex: 2,
+              ),
               Align(
                   alignment: Alignment.center,
-                  child:
-                      // Text(context.appLocalizations(ref).welcomeOnBoard)
-                      //     .animate()
-                      //     .tint(color: Colors.purple),
-                      Text("Horrible Pulsing Text")
-                          .animate(
-                              onPlay: (controller) =>
-                                  controller.repeat(reverse: true))
-                          .fadeOut(curve: Curves.easeInOut)),
+                  child: title
+                      .animate(onPlay: (controller) => controller.repeat())
+                      .shimmer(
+                          duration: 1200.ms, color: const Color(0xFF80DDFF))
+                      .animate() // this wraps the previous Animate in another Animate
+                      .fadeIn(duration: 1200.ms, curve: Curves.easeOutQuad)
+                      .slide()),
+              const Spacer(
+                flex: 1,
+              ),
               ElevatedButton(
                 onPressed: () {
                   context.router.replaceAll([const LoginRoute()]);
@@ -49,9 +66,10 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
                 child: Text(context.appLocalizations(ref).signIn),
               ),
               const Spacer(),
+              Text(initialLink ?? "Normal Launch"),
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [Text("$appName  - version: $version ")],
+                children: [Text("$appName  - version: $version")],
               )
             ],
           );

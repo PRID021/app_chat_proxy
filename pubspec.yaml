@@ -6,6 +6,8 @@ version: 1.0.0+2
 environment:
   sdk: ">=3.2.0 <4.0.0"
 
+assets:
+  - .env
 dependencies:
   flutter:
     sdk: flutter
@@ -33,6 +35,10 @@ dependencies:
   package_info_plus: ^5.0.1
   flutter_animate: ^4.5.0
   sentry_flutter: ^7.16.1
+  flex_color_scheme: ^7.3.1
+  onesignal_flutter: ^5.1.0
+  uni_links: ^0.5.1
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:

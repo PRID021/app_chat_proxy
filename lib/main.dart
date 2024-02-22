@@ -5,11 +5,16 @@ import 'package:app_chat_proxy/router/di.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni_links/uni_links.dart';
 
 import 'di.dart';
 import 'eager_initialization.dart';
@@ -17,28 +22,46 @@ import 'firebase_options.dart';
 
 final analyticsProvider = Provider((ref) => FirebaseAnalytics.instance);
 late final PackageInfo packageInfo;
+late final String? initialLink;
+
+Future<void> initUniLinks() async {
+  // Platform messages may fail, so we use a try/catch PlatformException.
+  try {
+    initialLink = await getInitialLink();
+    // Parse the link and warn the user, if it is not correct,
+    // but keep in mind it could be `null`.
+  } on PlatformException {
+    // Handle exception by warning the user their action did not succeed
+    // return?
+  }
+}
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
+  await initUniLinks();
+  OneSignal.initialize("c641c4e2-0fc0-4059-b054-c72bab45770e");
+  await OneSignal.Notifications.requestPermission(true);
   packageInfo = await PackageInfo.fromPlatform();
   final app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final analytics = FirebaseAnalytics.instanceFor(app: app);
   final analyticsProvider = Provider((ref) => analytics);
-  await SentryFlutter.init((options) {
-    options.dsn =
-        'https://3ed1a9d63b4f1fec38f7592845d15296@o4506788251893760.ingest.sentry.io/4506788288004096';
-    // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-    // We recommend adjusting this value in production.
-    options.tracesSampleRate = 1.0;
-  },
-      appRunner: () => runApp(
-            ProviderScope(
-              overrides: [analyticsProvider],
-              child: const MyApp(),
-            ),
-          ));
+
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://3ed1a9d63b4f1fec38f7592845d15296@o4506788251893760.ingest.sentry.io/4506788288004096';
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(
+      ProviderScope(
+        overrides: [analyticsProvider],
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
@@ -71,7 +94,8 @@ class MyApp extends ConsumerWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themeMode,
           locale: userReferences.locale,
-          darkTheme: ThemeData.dark(),
+          darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+          theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
           builder: (context, child) {
             return KeyedSubtree(
               child: Consumer(

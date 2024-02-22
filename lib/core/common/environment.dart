@@ -26,7 +26,7 @@ final appEnv = AppEnvironmentData();
 class AppEnvironmentData extends EnvironmentData<String> {
   @override
   String dev() {
-    return "http://192.168.1.40:14433";
+    return "http://10.10.10.39:14433";
   }
 
   @override
