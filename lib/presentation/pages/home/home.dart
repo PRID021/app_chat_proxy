@@ -1,9 +1,6 @@
-import 'package:app_chat_proxy/router/app_router.dart';
+import 'package:app_chat_proxy/presentation/pages/home/tabs/setting/setting_tab.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../login/authenticate_provider.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -19,33 +16,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        body: TabBarView(
+        backgroundColor: Theme.of(context).canvasColor,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: const TabBarView(
           children: [
-            const Icon(Icons.directions_car),
-            const Icon(Icons.directions_transit),
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      context.router.push(ChatRoute(title: "From Home"));
-                    },
-                    child: const Text("Q?A"),
-                  ),
-                  Consumer(builder: (context, ref, _) {
-                    return ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(authenticateNotifierProvider.notifier)
-                            .clearStorage();
-                      },
-                      child: const Icon(Icons.logout),
-                    );
-                  }),
-                ],
-              ),
-            ),
+            Icon(Icons.directions_car),
+            Icon(Icons.directions_transit),
+            SettingTab()
           ],
         ),
         bottomNavigationBar: Container(
