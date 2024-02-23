@@ -1,3 +1,5 @@
+import 'env_keys.dart';
+
 Environment currentEnvironment = Environment.dev;
 
 enum Environment { dev, stg, prod }
@@ -26,7 +28,7 @@ final appEnv = AppEnvironmentData();
 class AppEnvironmentData extends EnvironmentData<String> {
   @override
   String dev() {
-    return "http://10.10.10.39:14433";
+    return "${EnvironmentLoader.scheme}://${EnvironmentLoader.host}:${EnvironmentLoader.port}";
   }
 
   @override

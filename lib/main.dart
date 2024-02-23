@@ -16,6 +16,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni_links/uni_links.dart';
 
+import 'core/common/env_keys.dart';
 import 'di.dart';
 import 'eager_initialization.dart';
 import 'firebase_options.dart';
@@ -38,6 +39,7 @@ Future<void> initUniLinks() async {
 
 void main() async {
   await dotenv.load(fileName: ".env");
+  EnvironmentLoader.load(dotenv);
   WidgetsFlutterBinding.ensureInitialized();
   await initUniLinks();
   OneSignal.initialize("c641c4e2-0fc0-4059-b054-c72bab45770e");

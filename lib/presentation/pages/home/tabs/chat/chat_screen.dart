@@ -7,6 +7,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../core/common/env_keys.dart';
 import '../../../../../data/repositories/auth_repository/di.dart';
 import 'code_element_builder.dart';
 
@@ -46,9 +47,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final request = http.StreamedRequest(
       "GET",
       Uri(
-          scheme: "http",
-          host: "192.168.1.40",
-          port: 14433,
+          scheme: EnvironmentLoader.scheme,
+          host: EnvironmentLoader.host,
+          port: EnvironmentLoader.port,
           path: "/chat",
           queryParameters: {"message": question}),
     );
