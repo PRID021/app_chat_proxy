@@ -42,17 +42,14 @@ void main() async {
   EnvironmentLoader.load(dotenv);
   WidgetsFlutterBinding.ensureInitialized();
   await initUniLinks();
-
   OneSignal.initialize("c641c4e2-0fc0-4059-b054-c72bab45770e");
   await OneSignal.Notifications.requestPermission(true);
-
   packageInfo = await PackageInfo.fromPlatform();
   final app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final analytics = FirebaseAnalytics.instanceFor(app: app);
   final analyticsProvider = Provider((ref) => analytics);
-
   await SentryFlutter.init(
     (options) {
       options.dsn =
