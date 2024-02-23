@@ -1,5 +1,10 @@
 package com.example.app_chat_proxy;
 
+import static android.app.Notification.DEFAULT_VIBRATE;
+
+
+import static androidx.core.app.NotificationCompat.PRIORITY_MAX;
+
 import com.onesignal.notifications.IActionButton;
 import com.onesignal.notifications.IDisplayableMutableNotification;
 import com.onesignal.notifications.INotificationReceivedEvent;
@@ -18,6 +23,13 @@ public class NotificationServiceExtension implements INotificationServiceExtensi
         }
 
         // this is an example of how to modify the notification by changing the background color to blue
-        notification.setExtender(builder -> builder.setColor(0xFF0000FF));
+        notification.setExtender((builder) -> {
+            builder.setColor(0xffffff);
+            builder.setDefaults(DEFAULT_VIBRATE);
+            builder.setPriority(PRIORITY_MAX);
+            return builder;
+        });
+        notification.display();
+
     }
 }

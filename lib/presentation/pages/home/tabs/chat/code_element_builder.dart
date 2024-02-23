@@ -29,7 +29,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
 
           // Specify highlight theme
           // All available themes are listed in `themes` folder
-          theme: MediaQueryData.fromWindow(WidgetsBinding.instance!.window)
+          theme: MediaQueryData.fromView(WidgetsBinding.instance!.window)
                       .platformBrightness ==
                   Brightness.light
               ? atomOneLightTheme
