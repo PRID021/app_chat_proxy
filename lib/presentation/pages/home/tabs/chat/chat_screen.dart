@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -44,28 +45,37 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final requestModel =
         QuestionAnswer(question: question, answer: StringBuffer());
     conversationChats.add(requestModel);
-    final request = http.StreamedRequest(
-      "GET",
-      Uri(
+    logger.w("Request have been sent");
+    try {
+      final request = http.StreamedRequest(
+        "GET",
+        Uri(
           scheme: EnvironmentLoader.scheme,
           host: EnvironmentLoader.host,
           port: EnvironmentLoader.port,
           path: "/chat",
-          queryParameters: {"message": question}),
-    );
-    request.headers.addAll({
-      'Authorization':
-          'Bearer ${ref.read(authRepositoryProvider).storageToken()?.accessToken}',
-    });
-
-    unawaited(request.sink.close());
-    final response = await request.send();
-    response.stream.listen((value) {
-      setState(() {
-        final chunk = utf8.decode(value);
-        requestModel.answer.write(chunk);
+          queryParameters: {"conversation_id": "1", "message": question},
+        ),
+      );
+      request.headers.addAll({
+        'Authorization':
+            'Bearer ${ref.read(authRepositoryProvider).storageToken()?.accessToken}',
       });
-    });
+
+      unawaited(request.sink.close());
+      final response = await request.send();
+      logger.w(67);
+      response.stream.listen((value) {
+        setState(() {
+          final chunk = utf8.decode(value);
+          requestModel.answer.write(chunk);
+        });
+      }, onError: (e) {
+        logger.e(e);
+      });
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   @override
