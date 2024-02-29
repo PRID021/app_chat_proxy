@@ -95,7 +95,7 @@ class MyApp extends ConsumerWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themeMode,
           locale: userReferences.locale,
-          darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+          darkTheme: FlexThemeData.dark(scheme: FlexScheme.indigoM3),
           theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
           builder: (context, child) {
             return KeyedSubtree(

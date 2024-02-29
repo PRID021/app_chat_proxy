@@ -28,7 +28,7 @@ final appEnv = AppEnvironmentData();
 class AppEnvironmentData extends EnvironmentData<String> {
   @override
   String dev() {
-    return "${EnvironmentLoader.scheme}://${EnvironmentLoader.host}:${EnvironmentLoader.port}";
+    return "${EnvironmentLoader.scheme}://${EnvironmentLoader.host}";
   }
 
   @override

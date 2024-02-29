@@ -1,6 +1,8 @@
-import 'package:app_chat_proxy/presentation/pages/home/tabs/setting/setting_tab.dart';
+import 'package:app_chat_proxy/presentation/pages/setting/setting_tab.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
+import '../../../router/app_router.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -14,16 +16,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: Theme.of(context).canvasColor,
         extendBody: true,
         extendBodyBehindAppBar: true,
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            Icon(Icons.directions_car),
-            Icon(Icons.directions_transit),
-            SettingTab()
+            const Icon(Icons.directions_car),
+            IconButton(
+              icon: const Icon(Icons.directions_car),
+              onPressed: () {
+                context.router.push(const SettingRoute());
+              },
+            ),
           ],
         ),
         bottomNavigationBar: Container(
@@ -32,9 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const TabBar(
             dividerColor: Colors.transparent,
             tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_transit)),
-              Tab(icon: Icon(Icons.rocket_launch_sharp)),
+              Tab(
+                icon: Icon(Icons.directions_transit),
+              ),
+              Tab(
+                icon: Icon(Icons.directions_car),
+              ),
             ],
           ),
         ),

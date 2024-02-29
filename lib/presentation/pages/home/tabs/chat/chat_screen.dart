@@ -49,8 +49,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       Uri(
           scheme: EnvironmentLoader.scheme,
           host: EnvironmentLoader.host,
-          port: EnvironmentLoader.port,
-          path: "/chat",
+          path: "/chat-with-gemi/gemi",
           queryParameters: {"message": question}),
     );
     request.headers.addAll({
