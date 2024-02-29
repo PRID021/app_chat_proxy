@@ -23,7 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
         extendBodyBehindAppBar: true,
         body: TabBarView(
           children: [
-            const Icon(Icons.directions_car),
+            IconButton(
+              icon: const Icon(Icons.rocket_launch),
+              onPressed: () {
+                context.router.push(ChatRoute(title: "Gemi"));
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.directions_car),
               onPressed: () {
