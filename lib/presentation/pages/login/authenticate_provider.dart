@@ -1,3 +1,4 @@
+import 'package:app_chat_proxy/presentation/common/providers/loading_manager_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,6 +40,7 @@ class AuthenticateNotifier extends Notifier<AuthStatus> {
 
   void performAuthenticate(
       {required String userName, required String password}) async {
+    ref.read(loadingStatusNotifierProvider.notifier).markLoading();
     final authRepository = ref.read(authRepositoryProvider);
     final rs = await authRepository.authenticate(
         userName: userName, password: password);
@@ -48,6 +50,7 @@ class AuthenticateNotifier extends Notifier<AuthStatus> {
     } else {
       state = AuthStatus.unAuthenticate;
     }
+    ref.read(loadingStatusNotifierProvider.notifier).markLoadingDone();
   }
 
   void clearStorage() {

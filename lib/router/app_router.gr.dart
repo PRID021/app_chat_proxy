@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ChatHistoryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ChatHistoryScreen(),
+      );
+    },
     ChatRoute.name: (routeData) {
       final args = routeData.argsAs<ChatRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -50,6 +56,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [ChatHistoryScreen]
+class ChatHistoryRoute extends PageRouteInfo<void> {
+  const ChatHistoryRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatHistoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatHistoryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

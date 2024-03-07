@@ -1,4 +1,5 @@
 import 'package:app_chat_proxy/dev/logger.dart';
+import 'package:app_chat_proxy/presentation/common/providers/loading_manager_provider.dart';
 import 'package:app_chat_proxy/presentation/pages/login/authenticate_provider.dart';
 import 'package:app_chat_proxy/router/app_router.dart';
 import 'package:app_chat_proxy/router/di.dart';
@@ -113,7 +114,26 @@ class MyApp extends ConsumerWidget {
                       }
                       logger.w("Auth Status Changed");
                     });
-                    return child ?? const SizedBox.shrink();
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        child ?? const SizedBox.shrink(),
+                        Consumer(builder: (context, ref, child) {
+                          LoadingStatus status =
+                              ref.watch(loadingStatusNotifierProvider);
+                          if (status == LoadingStatus.stable) {
+                            return const SizedBox.shrink();
+                          }
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.2)),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        })
+                      ],
+                    );
                   }),
             );
           },

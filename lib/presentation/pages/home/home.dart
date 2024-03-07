@@ -1,4 +1,3 @@
-import 'package:app_chat_proxy/presentation/pages/setting/setting_tab.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: const Icon(Icons.rocket_launch),
               onPressed: () {
-                context.router.push(ChatRoute(title: "Gemi"));
+                context.router.push(const ChatHistoryRoute());
               },
             ),
             IconButton(
