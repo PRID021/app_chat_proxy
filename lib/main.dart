@@ -6,7 +6,6 @@ import 'package:app_chat_proxy/router/di.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -96,8 +95,9 @@ class MyApp extends ConsumerWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themeMode,
           locale: userReferences.locale,
-          darkTheme: FlexThemeData.dark(scheme: FlexScheme.indigoM3),
-          theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+          debugShowCheckedModeBanner: false,
+          // darkTheme: FlexThemeData.dark(scheme: FlexScheme.indigoM3),
+          // theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
           builder: (context, child) {
             return KeyedSubtree(
               child: Consumer(
