@@ -36,9 +36,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                stops: [0.35, 0.6, 0.8],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.3, 0.6, 0.9],
                 colors: [
                   Colors.black,
                   Colors.purple,
