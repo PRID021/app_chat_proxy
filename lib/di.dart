@@ -5,7 +5,7 @@ import 'package:app_chat_proxy/domain/entities/user_references.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'domain/repositories/user_repository/di.dart';
+import 'data/repositories/user_repository/di.dart';
 
 final userReferencesNotifierProvider =
     NotifierProvider<UserReferencesNotifier, UserReferences>(

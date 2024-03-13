@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/themes/atom-one-dark.dart';
-import 'package:flutter_highlight/themes/atom-one-light.dart';
 import 'package:flutter_highlighter/flutter_highlighter.dart';
+import 'package:flutter_highlighter/themes/atom-one-dark.dart';
+import 'package:flutter_highlighter/themes/atom-one-light.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 
@@ -14,11 +14,13 @@ class CodeElementBuilder extends MarkdownElementBuilder {
       String lg = element.attributes['class'] as String;
       language = lg.substring(9);
     }
+    final controller = ScrollController();
     return Scrollbar(
-      controller: ScrollController(),
+      controller: controller,
       thumbVisibility: true,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
+        controller: controller,
         child: HighlightView(
           // The original code to be highlighted
           element.textContent,

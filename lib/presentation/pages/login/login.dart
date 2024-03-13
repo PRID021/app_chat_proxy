@@ -1,10 +1,8 @@
-import 'package:app_chat_proxy/router/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
-import '../../../di.dart';
 import 'authenticate_provider.dart';
 
 @RoutePage()
@@ -17,18 +15,18 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  final userController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    userController.text = "admin";
+    passwordController.text = "secret";
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userReferences = ref.watch(userReferencesNotifierProvider);
-    final userController = TextEditingController();
-    final passwordController = TextEditingController();
-
-    final notifier = ref.listen(authenticateNotifierProvider, (pre, next) {
-      if (next == AuthStatus.authenticated) {
-        context.router.replaceAll([const HomeRoute()]);
-      }
-    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(

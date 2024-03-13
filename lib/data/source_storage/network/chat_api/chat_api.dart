@@ -1,19 +1,16 @@
-import 'dart:convert';
-
 import '../../../../core/common/result.dart';
 import '../../../../core/network/http_method.dart';
 import '../../../../core/network/sender.dart';
 import '../../../../domain/entities/conversation.dart';
 
 abstract class ChatApi {
-  Future<Result<Object, List<Conversation>>> userConversations();
+  Future<Result<Object, List<Conversation>>> getUserConversations();
 }
 
-class ConversationsParser implements DataParser<List<Conversation>, dynamic> {
+class ConversationsParser implements DataParser<List<Conversation>, List> {
   @override
   List<Conversation> fromSource({required rawSource}) {
-    final json = jsonDecode(rawSource.toString()) as List;
-    return json.map((e) {
+    return rawSource.map((e) {
       return Conversation(id: e['id'], title: e['title']);
     }).toList();
   }
@@ -25,11 +22,12 @@ class ChatApiImp implements ChatApi {
   ChatApiImp({required Sender sender}) : _sender = sender;
 
   @override
-  Future<Result<Object, List<Conversation>>> userConversations() async {
+  Future<Result<Object, List<Conversation>>> getUserConversations() async {
     final rs = await _sender.sendApiRequest(
-        method: HttpMethod.get,
-        dataParser: ConversationsParser(),
-        pathParameter: "/conversation");
+      method: HttpMethod.get,
+      dataParser: ConversationsParser(),
+      pathParameter: "/conversation",
+    );
     return rs;
   }
 }

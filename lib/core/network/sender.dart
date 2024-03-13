@@ -6,19 +6,16 @@ import 'package:meta/meta.dart';
 
 import '../common/result.dart';
 import 'http_error.dart';
-import 'internet_supervisor.dart';
 
 abstract class DataParser<S, R> {
   S fromSource({required R rawSource});
 }
 
 class Sender {
-  final InternetSupervisor internetSupervisor;
   final HttpApiConfig httpApiConfig;
   final ErrorProcessing errorProcessing;
 
   Sender({
-    required this.internetSupervisor,
     required this.httpApiConfig,
     required this.errorProcessing,
   });
@@ -44,6 +41,7 @@ class Sender {
       response = dio.post(path,
           data: body, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.get) {
+      logger.w("GET: ${dio.options.baseUrl}$path");
       response =
           dio.get(path, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.delete) {
@@ -58,10 +56,15 @@ class Sender {
     }
     late Result<F, S> rs;
     await response.then((value) {
-      logger.i(value);
-      rs = Result.success(
-        dataParser.fromSource(rawSource: value),
-      );
+      logger.w(
+          "$method: ${dio.options.baseUrl}$path \n$value\n${dataParser.runtimeType}");
+      try {
+        rs = Result.success(
+          dataParser.fromSource(rawSource: value.data),
+        );
+      } catch (e) {
+        logger.e(e);
+      }
     }, onError: (error) {
       logger.e(error);
       rs = Result.failure(errorProcessing.handlerError(error) as F);

@@ -96,8 +96,6 @@ class MyApp extends ConsumerWidget {
           themeMode: themeMode,
           locale: userReferences.locale,
           debugShowCheckedModeBanner: false,
-          // darkTheme: FlexThemeData.dark(scheme: FlexScheme.indigoM3),
-          // theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
           builder: (context, child) {
             return KeyedSubtree(
               child: Consumer(
@@ -111,8 +109,14 @@ class MyApp extends ConsumerWidget {
                             ?.currentContext!
                             .router
                             .replaceAll([const LoginRoute()]);
+                      } else {
+                        ref
+                            .read(appKeysProvider)
+                            .navKey
+                            ?.currentContext!
+                            .router
+                            .replaceAll([const HomeRoute()]);
                       }
-                      logger.w("Auth Status Changed");
                     });
                     return Stack(
                       alignment: Alignment.center,

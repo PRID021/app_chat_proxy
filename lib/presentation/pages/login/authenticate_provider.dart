@@ -12,16 +12,6 @@ enum AuthStatus {
   authenticated,
 }
 
-class AuthHttpApiConfig extends HttpApiConfig {
-  AuthHttpApiConfig({required super.path});
-
-  @override
-  Dio createDio() {
-    final options = BaseOptions(baseUrl: appEnv.getData());
-    return Dio(options);
-  }
-}
-
 final authenticateNotifierProvider =
     NotifierProvider<AuthenticateNotifier, AuthStatus>(() {
   return AuthenticateNotifier();

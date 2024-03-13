@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../../core/common/env_keys.dart';
@@ -47,8 +48,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final request = http.StreamedRequest(
       "GET",
       Uri(
-          scheme: EnvironmentLoader.scheme,
-          host: EnvironmentLoader.host,
+          scheme: EnvironmentLoader.geminiScheme,
+          host: EnvironmentLoader.geminiHost,
+          port: EnvironmentLoader.geminiPort,
           path: "/chat-with-gemi/gemi",
           queryParameters: {"message": question}),
     );
@@ -88,47 +90,33 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8),
-                            child: Text("Q:"),
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.purpleAccent.withOpacity(0.25),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  conversationChats[idx].question,
-                                  textAlign: TextAlign.justify,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 32,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                          const Icon(Icons.person_2),
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.orange.withOpacity(0.3),
-                                  borderRadius: BorderRadius.circular(8)),
-                              margin: const EdgeInsets.only(left: 8),
-                              padding: const EdgeInsets.all(16),
+                                color: Colors.purpleAccent.withOpacity(0.25),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                conversationChats[idx].question,
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Gap(4),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.rocket_launch_sharp),
+                          const Gap(8),
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               child: MarkdownBody(
                                   shrinkWrap: true,
                                   builders: {
@@ -138,10 +126,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                       conversationChats[idx].answer.toString()),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 8, left: 8),
-                            child: Text("BOT"),
-                          )
                         ],
                       ),
                     ],
