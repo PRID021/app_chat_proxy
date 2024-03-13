@@ -30,25 +30,27 @@ class Sender {
     Map<String, String>? headers,
     dynamic body,
     Map<String, dynamic> queryParameters = const {},
+    String pathParameter = "",
     ResponseType responseType = ResponseType.json,
     Options? options,
   }) async {
     final dio = httpApiConfig.createDio();
     options ??= Options(headers: headers);
     late Future<Response>? response;
+    String path = httpApiConfig.path + pathParameter;
     if (method == HttpMethod.post) {
-      logger.w("POST: ${dio.options.baseUrl}${httpApiConfig.path}");
+      logger.w("POST: ${dio.options.baseUrl}$path");
       logger.w("body: $body");
-      response = dio.post(httpApiConfig.path,
+      response = dio.post(path,
           data: body, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.get) {
-      response = dio.get(httpApiConfig.path,
-          queryParameters: queryParameters, options: options);
+      response =
+          dio.get(path, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.delete) {
-      response = dio.delete(httpApiConfig.path,
-          queryParameters: queryParameters, options: options);
+      response =
+          dio.delete(path, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.put) {
-      response = dio.put(httpApiConfig.path,
+      response = dio.put(path,
           data: body, queryParameters: queryParameters, options: options);
     }
     if (response == null) {

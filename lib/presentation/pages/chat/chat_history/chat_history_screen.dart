@@ -14,9 +14,11 @@ class ChatHistoryScreen extends ConsumerStatefulWidget {
 class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CommonAppBar(title: Text("Chat history")),
-      body: Center(),
+    return Scaffold(
+      appBar: CommonAppBar(title: Text("Recently conversations")),
+      body: Column(
+        children: [],
+      ),
     );
   }
 }
