@@ -10,7 +10,7 @@ abstract class ChatApi {
   Future<Result<Object, List<Conversation>>> getUserConversations();
 
   Future<Result<Object, List<ConversationMessage>>> getConversationMessages(
-      {required String conversationId});
+      {required int conversationId});
 }
 
 class ConversationsParser implements DataParser<List<Conversation>, List> {
@@ -41,7 +41,7 @@ class ConversationMessagesParser
         sender: ConversationRoleParse().fromSource(json: e["sender"]),
         id: e["id"],
         conversationId: e["conversation_id"],
-        createdAt: e["created_at"],
+        createdAt: DateTime.parse(e["created_at"]),
         content: StringBuffer(
           e["content"],
         ),
@@ -67,11 +67,11 @@ class ChatApiImp implements ChatApi {
 
   @override
   Future<Result<Object, List<ConversationMessage>>> getConversationMessages(
-      {required String conversationId}) async {
+      {required int conversationId}) async {
     final rs = await _sender.sendApiRequest(
       method: HttpMethod.get,
       dataParser: ConversationMessagesParser(),
-      pathParameter: "/conversation",
+      pathParameter: "/conversation/$conversationId",
     );
     return rs;
   }

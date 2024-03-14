@@ -59,9 +59,7 @@ class Sender {
       logger.w(
           "$method: ${dio.options.baseUrl}$path \n$value\n${dataParser.runtimeType}");
       try {
-        rs = Result.success(
-          dataParser.fromSource(json: value.data),
-        );
+        rs = Result.success(dataParser.fromSource(json: value.data));
       } catch (e) {
         logger.e(e);
       }

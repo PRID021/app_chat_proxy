@@ -1,3 +1,4 @@
+import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:app_chat_proxy/presentation/common/components/common_app_bar.dart';
 import 'package:app_chat_proxy/presentation/pages/chat/chat_history/states.dart';
 import 'package:app_chat_proxy/router/app_router.dart';
@@ -49,8 +50,14 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
-                  onTap: () {
-                    context.router.push(ChatRoute(title: "ChatRoom"));
+                  onTap: () async {
+                    try {
+                      await context.router.push(
+                        AskRoute(conversationId: state.conversations[idx].id),
+                      );
+                    } catch (e) {
+                      logger.e(e);
+                    }
                   },
                   title: Text(state.conversations[idx].id.toString()),
                   leading: const Icon(Icons.message),

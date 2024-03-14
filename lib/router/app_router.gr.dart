@@ -16,9 +16,13 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AskRoute.name: (routeData) {
+      final args = routeData.argsAs<AskRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AskScreen(),
+        child: AskScreen(
+          key: args.key,
+          conversationId: args.conversationId,
+        ),
       );
     },
     ChatHistoryRoute.name: (routeData) {
@@ -66,16 +70,39 @@ abstract class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [AskScreen]
-class AskRoute extends PageRouteInfo<void> {
-  const AskRoute({List<PageRouteInfo>? children})
-      : super(
+class AskRoute extends PageRouteInfo<AskRouteArgs> {
+  AskRoute({
+    Key? key,
+    required int conversationId,
+    List<PageRouteInfo>? children,
+  }) : super(
           AskRoute.name,
+          args: AskRouteArgs(
+            key: key,
+            conversationId: conversationId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AskRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AskRouteArgs> page = PageInfo<AskRouteArgs>(name);
+}
+
+class AskRouteArgs {
+  const AskRouteArgs({
+    this.key,
+    required this.conversationId,
+  });
+
+  final Key? key;
+
+  final int conversationId;
+
+  @override
+  String toString() {
+    return 'AskRouteArgs{key: $key, conversationId: $conversationId}';
+  }
 }
 
 /// generated route for

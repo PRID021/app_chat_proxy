@@ -21,6 +21,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: LoginRoute.page, path: "/login"),
         AutoRoute(page: HomeRoute.page, path: "/home"),
         AutoRoute(page: ChatRoute.page, path: "/home/history/chat"),
+        AutoRoute(page: AskRoute.page, path: "/home/history/ask"),
         AutoRoute(page: ChatHistoryRoute.page, path: "/home/history"),
         AutoRoute(page: SettingRoute.page, path: "/home/setting")
       ];
