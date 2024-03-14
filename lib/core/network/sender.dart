@@ -8,7 +8,7 @@ import '../common/result.dart';
 import 'http_error.dart';
 
 abstract class DataParser<S, R> {
-  S fromSource({required R rawSource});
+  S fromSource({required R json});
 }
 
 class Sender {
@@ -60,7 +60,7 @@ class Sender {
           "$method: ${dio.options.baseUrl}$path \n$value\n${dataParser.runtimeType}");
       try {
         rs = Result.success(
-          dataParser.fromSource(rawSource: value.data),
+          dataParser.fromSource(json: value.data),
         );
       } catch (e) {
         logger.e(e);

@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AskRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AskScreen(),
+      );
+    },
     ChatHistoryRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -56,6 +62,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AskScreen]
+class AskRoute extends PageRouteInfo<void> {
+  const AskRoute({List<PageRouteInfo>? children})
+      : super(
+          AskRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AskRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

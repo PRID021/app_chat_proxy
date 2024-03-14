@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../presentation/pages/chat/chat_history/chat_history_screen.dart';
-import '../presentation/pages/chat/chat_room/chat_screen.dart';
+import '../presentation/pages/chat/chat_with_gemini/chat_screen.dart';
+import '../presentation/pages/chat/chat_with_gpt/ask_screen.dart';
 import '../presentation/pages/home/home.dart';
 import '../presentation/pages/login/login.dart';
 import '../presentation/pages/on_board/on_board.dart';

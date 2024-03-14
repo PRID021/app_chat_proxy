@@ -8,8 +8,7 @@ import '../../../../core/network/sender.dart';
 
 class AuthParse implements DataParser<Token, dynamic> {
   @override
-  Token fromSource({required rawSource}) {
-    final json = jsonDecode(rawSource.toString());
+  Token fromSource({required json}) {
     return Token(
         accessToken: json["access_token"], tokenType: json["access_token"]);
   }
