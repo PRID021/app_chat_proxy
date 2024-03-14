@@ -74,6 +74,12 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.router.push(ChatRoute(title: "Chat With Gemini"));
+        },
+        child: const Icon(Icons.question_answer_outlined),
+      ),
       appBar: const CommonAppBar(
         title: Text("Recently conversations"),
       ),
