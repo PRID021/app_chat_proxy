@@ -1,7 +1,7 @@
 name: app_chat_proxy
 description: "Self project for practice"
 publish_to: "Firebase App Distribute"
-version: 1.0.0+2
+version: 1.0.0+5
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
