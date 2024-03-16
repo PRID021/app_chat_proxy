@@ -17,13 +17,24 @@ abstract class ChatApi {
 
   Future<Result<Object, Stream<String>>> postConversationMessage(
       {required int conversationId, required String content});
+
+  Future<Result<Object, Conversation>> createNewConversation();
+}
+
+class ConversationParser implements DataParser<Conversation, dynamic> {
+  @override
+  Conversation fromSource({required json}) {
+    return Conversation(id: json['id'], title: json['title']);
+  }
 }
 
 class ConversationsParser implements DataParser<List<Conversation>, List> {
   @override
   List<Conversation> fromSource({required json}) {
+    final conversationParser = ConversationParser();
     return json.map((e) {
-      return Conversation(id: e['id'], title: e['title']);
+      return conversationParser.fromSource(json: e);
+      // return Conversation(id: e['id'], title: e['title']);
     }).toList();
   }
 }
@@ -102,6 +113,16 @@ class ChatApiImp implements ChatApi {
           "conversation_id": conversationId,
           "message": content
         });
+    return rs;
+  }
+
+  @override
+  Future<Result<Object, Conversation>> createNewConversation() async {
+    final rs = await _sender.sendApiRequest(
+      method: HttpMethod.post,
+      pathParameter: "/conversation",
+      dataParser: ConversationParser(),
+    );
     return rs;
   }
 }

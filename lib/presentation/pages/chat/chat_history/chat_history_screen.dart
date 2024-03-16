@@ -5,6 +5,7 @@ import 'package:app_chat_proxy/router/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 
 import '../../../common/components/wild_card.dart';
 import 'chat_history_state_provider.dart';
@@ -74,11 +75,35 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.router.push(ChatRoute(title: "Chat With Gemini"));
-        },
-        child: const Icon(Icons.question_answer_outlined),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              ref
+                  .read(chatHistoryScreenStateNotifierProvider.notifier)
+                  .createAndJoinConversation(
+                (conversation) {
+                  if (conversation != null) {
+                    context.router.push(
+                      AskRoute(
+                        conversationId: conversation.id,
+                      ),
+                    );
+                  }
+                },
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+          const Gap(8),
+          FloatingActionButton(
+            onPressed: () {
+              context.router.push(ChatRoute(title: "Chat With Gemini"));
+            },
+            child: const Icon(Icons.question_answer_outlined),
+          ),
+        ],
       ),
       appBar: const CommonAppBar(
         title: Text("Recently conversations"),

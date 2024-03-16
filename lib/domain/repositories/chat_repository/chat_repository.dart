@@ -10,4 +10,6 @@ abstract class ChatRepository {
 
   Future<Stream<String>?> postConversationMessage(
       {required int conversationId, required String content});
+
+  Future<Conversation?> createNewConversation();
 }

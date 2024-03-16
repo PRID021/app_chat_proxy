@@ -41,4 +41,13 @@ class ChatRepositoryImp implements ChatRepository {
     }
     return null;
   }
+
+  @override
+  Future<Conversation?> createNewConversation() async {
+    final rs = await api.createNewConversation();
+    if (rs.isSuccess()) {
+      return rs.getOrThrow();
+    }
+    return null;
+  }
 }
