@@ -34,7 +34,6 @@ class ConversationsParser implements DataParser<List<Conversation>, List> {
     final conversationParser = ConversationParser();
     return json.map((e) {
       return conversationParser.fromSource(json: e);
-      // return Conversation(id: e['id'], title: e['title']);
     }).toList();
   }
 }

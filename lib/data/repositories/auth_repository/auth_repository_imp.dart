@@ -32,10 +32,10 @@ class AuthRepositoryImp implements AuthRepository {
           logger.e("Save token false");
         }
         logger.w("Save token success");
-        return token;
       } catch (e) {
         logger.e(e);
       }
+      return token;
     } else {
       return null;
     }

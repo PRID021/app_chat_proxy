@@ -1,9 +1,14 @@
-class Token {
+import 'package:equatable/equatable.dart';
+
+class Token extends Equatable {
   final String accessToken;
   final String tokenType;
 
-  Token({
+  const Token({
     required this.accessToken,
     required this.tokenType,
   });
+
+  @override
+  List<Object> get props => [accessToken, tokenType];
 }

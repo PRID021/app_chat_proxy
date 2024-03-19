@@ -112,14 +112,14 @@ class MyApp extends ConsumerWidget {
                         ref
                             .read(appKeysProvider)
                             .navKey
-                            ?.currentContext!
+                            .currentContext!
                             .router
                             .replaceAll([const LoginRoute()]);
                       } else {
                         ref
                             .read(appKeysProvider)
                             .navKey
-                            ?.currentContext!
+                            .currentContext!
                             .router
                             .replaceAll([const HomeRoute()]);
                       }
