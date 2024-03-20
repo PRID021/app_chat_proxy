@@ -49,6 +49,16 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       };
     }, [conversationId]);
 
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (ableScrollToEnd && state is InConversationState) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.bounceInOut,
+        );
+      }
+    });
+
     Widget? body;
     if (state is InitState) {
       body = const Center(
@@ -114,7 +124,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                 IconButton(
                   iconSize: 24,
                   color: Colors.blue,
-                  onPressed: () {},
+                  onPressed: _postMessage,
                   icon: const Icon(Icons.send),
                 ),
               ],
@@ -123,6 +133,15 @@ class _AskScreenState extends ConsumerState<AskScreen> {
         )
       ],
     );
+  }
+
+  void _postMessage() {
+    final huMessageContent = textEditingController.text;
+    textEditingController.clear();
+    ableScrollToEnd = true;
+    ref
+        .read(askScreenStateNotifierProvider(conversationId).notifier)
+        .postConversationMessage(huMessageContent);
   }
 }
 
@@ -152,15 +171,20 @@ class HumanMessage extends StatelessWidget {
         ),
         const Gap(8),
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.purpleAccent.withOpacity(0.25),
+          child: Card(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            padding: const EdgeInsets.all(8),
-            child: Text(
-              message.content.toString(),
-              textAlign: TextAlign.justify,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.purpleAccent.withOpacity(0.25),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                message.content.toString(),
+                textAlign: TextAlign.justify,
+              ),
             ),
           ),
         ),
@@ -195,18 +219,23 @@ class BotMessage extends StatelessWidget {
         ),
         const Gap(8),
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
+          child: Card(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.black12,
             ),
-            child: MarkdownBody(
-                shrinkWrap: true,
-                builders: {
-                  'code': CodeElementBuilder(),
-                },
-                data: message.content.toString()),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black12,
+              ),
+              child: MarkdownBody(
+                  shrinkWrap: true,
+                  builders: {
+                    'code': CodeElementBuilder(),
+                  },
+                  data: message.content.toString()),
+            ),
           ),
         ),
       ],

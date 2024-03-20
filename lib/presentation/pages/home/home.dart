@@ -51,6 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.router.push(const AboutRoute());
+          },
+        ),
       ),
     );
   }

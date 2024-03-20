@@ -4,6 +4,12 @@ import '../../entities/conversation.dart';
 
 abstract class ChatRepository {
   Future<List<Conversation>?> getUserConversations();
+
   Future<List<ConversationMessage>?> getConversationMessages(
       int conversationId);
+
+  Future<Stream<String>?> postConversationMessage(
+      {required int conversationId, required String content});
+
+  Future<Conversation?> createNewConversation();
 }

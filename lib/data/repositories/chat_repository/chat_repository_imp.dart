@@ -30,4 +30,24 @@ class ChatRepositoryImp implements ChatRepository {
     }
     return null;
   }
+
+  @override
+  Future<Stream<String>?> postConversationMessage(
+      {required int conversationId, required String content}) async {
+    final rs = await api.getMessageResponse(
+        conversationId: conversationId, content: content);
+    if (rs.isSuccess()) {
+      return rs.getOrThrow();
+    }
+    return null;
+  }
+
+  @override
+  Future<Conversation?> createNewConversation() async {
+    final rs = await api.createNewConversation();
+    if (rs.isSuccess()) {
+      return rs.getOrThrow();
+    }
+    return null;
+  }
 }

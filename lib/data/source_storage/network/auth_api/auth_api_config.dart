@@ -1,3 +1,4 @@
+import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../core/common/environment.dart';
@@ -10,10 +11,10 @@ class AuthHttpApiConfig implements HttpApiConfig {
         connectTimeout: const Duration(seconds: 10000),
         receiveTimeout: const Duration(seconds: 10000),
         baseUrl: appEnv.getData());
+    logger.w("AuthHttpApiConfig create dio");
     return Dio(options);
   }
 
   @override
-  // TODO: implement path
   String get path => "/token";
 }

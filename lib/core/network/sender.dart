@@ -32,7 +32,7 @@ class Sender {
     Options? options,
   }) async {
     final dio = httpApiConfig.createDio();
-    options ??= Options(headers: headers);
+    options ??= Options(headers: headers, responseType: responseType);
     late Future<Response>? response;
     String path = httpApiConfig.path + pathParameter;
     if (method == HttpMethod.post) {
@@ -41,7 +41,8 @@ class Sender {
       response = dio.post(path,
           data: body, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.get) {
-      logger.w("GET: ${dio.options.baseUrl}$path");
+      logger.w(
+          "GET: ${dio.options.baseUrl}$path\nHeader: ${options.headers}\nResponseType: ${options.responseType}");
       response =
           dio.get(path, queryParameters: queryParameters, options: options);
     } else if (method == HttpMethod.delete) {

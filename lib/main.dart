@@ -6,10 +6,12 @@ import 'package:app_chat_proxy/router/di.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -50,6 +52,10 @@ void main() async {
   );
   final analytics = FirebaseAnalytics.instanceFor(app: app);
   final analyticsProvider = Provider((ref) => analytics);
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  }
+
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -106,14 +112,14 @@ class MyApp extends ConsumerWidget {
                         ref
                             .read(appKeysProvider)
                             .navKey
-                            ?.currentContext!
+                            .currentContext!
                             .router
                             .replaceAll([const LoginRoute()]);
                       } else {
                         ref
                             .read(appKeysProvider)
                             .navKey
-                            ?.currentContext!
+                            .currentContext!
                             .router
                             .replaceAll([const HomeRoute()]);
                       }
