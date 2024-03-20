@@ -140,7 +140,7 @@ void main() {
     test("Should return Stream<String> of reply content.", () async {
       final expectSteam = Stream.fromIterable(["h", "e", "l", "l", "o"]);
       when(
-        () => chatApi.postConversationMessage(
+        () => chatApi.getMessageResponse(
           conversationId: conversationId,
           content: content,
         ),
@@ -155,7 +155,7 @@ void main() {
     });
 
     test("Should return null as fail to conversation with ai", () async {
-      when(() => chatApi.postConversationMessage(
+      when(() => chatApi.getMessageResponse(
           conversationId: conversationId,
           content: content)).thenAnswer((invocation) async {
         return Future.value(Result.failure("Some error"));

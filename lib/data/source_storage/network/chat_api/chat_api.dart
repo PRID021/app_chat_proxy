@@ -15,7 +15,7 @@ abstract class ChatApi {
   Future<Result<Object, List<ConversationMessage>>> getConversationMessages(
       {required int conversationId});
 
-  Future<Result<Object, Stream<String>>> postConversationMessage(
+  Future<Result<Object, Stream<String>>> getMessageResponse(
       {required int conversationId, required String content});
 
   Future<Result<Object, Conversation>> createNewConversation();
@@ -101,7 +101,7 @@ class ChatApiImp implements ChatApi {
   }
 
   @override
-  Future<Result<Object, Stream<String>>> postConversationMessage(
+  Future<Result<Object, Stream<String>>> getMessageResponse(
       {required int conversationId, required String content}) async {
     final rs = await _sender.sendApiRequest(
         method: HttpMethod.get,

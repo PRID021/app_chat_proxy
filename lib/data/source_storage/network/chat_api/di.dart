@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/network/http_error.dart';
 import '../../../../core/network/sender.dart';
-import 'chat_http_api_config.dart';
+import 'chat_api_config.dart';
 
 final chatApiProvider = Provider<ChatApi>((ref) {
   return ChatApiImp(

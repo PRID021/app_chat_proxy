@@ -17,5 +17,11 @@ class ConversationMessage extends Equatable {
   });
 
   @override
-  List<Object?> get props => [sender, id, conversationId, createdAt, content];
+  List<Object?> get props => [
+        sender,
+        id,
+        conversationId,
+        content.toString(),
+        createdAt.toIso8601String()
+      ];
 }
