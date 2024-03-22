@@ -1,0 +1,1 @@
+flutter run --dart-define=HOST_BUILD_IP=$(ipconfig getifaddr en0)

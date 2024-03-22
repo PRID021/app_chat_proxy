@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../common/components/wild_card.dart';
 import 'chat_history_state_provider.dart';
@@ -29,6 +30,22 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
     });
   }
 
+  RefreshController? refreshController;
+
+  void _onRefresh(BuildContext context) async {
+    ref
+        .read(chatHistoryScreenStateNotifierProvider.notifier)
+        .pullToRefresh((rs) {
+      if (context.mounted) {
+        if (rs) {
+          refreshController?.refreshCompleted();
+        } else {
+          refreshController?.refreshFailed();
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(chatHistoryScreenStateNotifierProvider);
@@ -39,7 +56,18 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
       );
     }
     if (state is LoadingDone) {
-      body = Center(
+      refreshController = refreshController ?? RefreshController();
+      body = SmartRefresher(
+        controller: refreshController!,
+        enablePullDown: true,
+        enablePullUp: true,
+        header: const WaterDropHeader(
+          complete: Icon(
+            Icons.check_circle_outline,
+            color: Colors.green,
+          ),
+        ),
+        onRefresh: () => _onRefresh(context),
         child: ListView.builder(
             itemCount: state.conversations.length,
             itemBuilder: (ctx, idx) {
@@ -79,6 +107,7 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
+            heroTag: "ft1",
             onPressed: () {
               ref
                   .read(chatHistoryScreenStateNotifierProvider.notifier)
@@ -98,6 +127,7 @@ class _ChatHistoryScreenState extends ConsumerState<ChatHistoryScreen> {
           ),
           const Gap(8),
           FloatingActionButton(
+            heroTag: "ft2",
             onPressed: () {
               context.router.push(ChatRoute(title: "Chat With Gemini"));
             },

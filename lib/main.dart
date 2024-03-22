@@ -41,7 +41,8 @@ Future<void> initUniLinks() async {
 
 void main() async {
   await dotenv.load(fileName: ".env");
-  EnvironmentLoader.load(dotenv);
+  await EnvironmentLoader.load(dotenv);
+
   WidgetsFlutterBinding.ensureInitialized();
   await initUniLinks();
   OneSignal.initialize("c641c4e2-0fc0-4059-b054-c72bab45770e");

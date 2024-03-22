@@ -49,6 +49,8 @@ dependencies:
   flutter_riverpod: ^2.4.10
   riverpod_annotation: ^2.3.4
   hooks_riverpod: ^2.5.1
+  network_info_plus: ^5.0.2
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:

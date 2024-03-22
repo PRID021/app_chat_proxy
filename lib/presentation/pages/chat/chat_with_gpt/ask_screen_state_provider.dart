@@ -1,6 +1,5 @@
 import 'package:app_chat_proxy/core/common/errors.dart';
 import 'package:app_chat_proxy/data/repositories/chat_repository/di.dart';
-import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:app_chat_proxy/presentation/pages/chat/chat_with_gpt/states.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -53,7 +52,7 @@ class AskScreenStateNotifier extends FamilyNotifier<AskScreenState, int> {
         .postConversationMessage(
             conversationId: conversationId, content: messageContent);
     streamAnswer?.listen((event) {
-      logger.w(event);
+      // logger.w(event);
       botAnswerBuffer.write(event);
       state = InConversationState(messages: oldMessages);
     });

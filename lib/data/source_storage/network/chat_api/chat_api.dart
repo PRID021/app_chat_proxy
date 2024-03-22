@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:app_chat_proxy/domain/entities/conversation_message.dart';
 import 'package:dio/dio.dart';
 
@@ -52,17 +53,23 @@ class ConversationMessagesParser
     implements DataParser<List<ConversationMessage>, List> {
   @override
   List<ConversationMessage> fromSource({required List json}) {
-    return json.map((e) {
-      return ConversationMessage(
-        sender: ConversationRoleParse().fromSource(json: e["sender"]),
-        id: e["id"],
-        conversationId: e["conversation_id"],
-        createdAt: DateTime.parse(e["created_at"]),
-        content: StringBuffer(
-          e["content"],
-        ),
-      );
-    }).toList();
+    try {
+      return json.map((e) {
+        logger.w(e);
+        return ConversationMessage(
+          sender: ConversationRoleParse().fromSource(json: e["sender"]),
+          id: e["id"],
+          conversationId: e["conversation_id"],
+          createdAt: DateTime.parse(e["created_at"]),
+          content: StringBuffer(
+            e["content"],
+          ),
+        );
+      }).toList();
+    } catch (e) {
+      logger.e(e);
+      return [];
+    }
   }
 }
 

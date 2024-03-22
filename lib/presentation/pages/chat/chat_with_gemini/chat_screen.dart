@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app_chat_proxy/dev/logger.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -36,49 +37,53 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   var ableScrollToEnd = true;
 
   void requestAnswer() async {
-    String question = textEditingController.text;
+    try {
+      String question = textEditingController.text;
 
-    setState(() {
-      ableScrollToEnd = true;
-      textEditingController.clear();
-    });
-    if (question.isEmpty) {
-      return;
-    }
-    final requestModel =
-        QuestionAnswer(question: question, answer: StringBuffer());
-    conversationChats.add(requestModel);
-    final request = http.StreamedRequest(
-      "GET",
-      Uri(
-          scheme: EnvironmentLoader.geminiScheme,
-          host: EnvironmentLoader.geminiHost,
-          port: EnvironmentLoader.geminiPort,
-          path: "/chat-with-gemi/gemi",
-          queryParameters: {"message": question}),
-    );
-    request.headers.addAll({
-      'Authorization':
-          'Bearer ${ref.read(authRepositoryProvider).storageToken()?.accessToken}',
-    });
-
-    unawaited(request.sink.close());
-    final response = await request.send();
-    response.stream.listen((value) {
       setState(() {
-        final chunk = utf8.decode(value);
-        requestModel.answer.write(chunk);
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          if (ableScrollToEnd) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.bounceInOut,
-            );
-          }
+        ableScrollToEnd = true;
+        textEditingController.clear();
+      });
+      if (question.isEmpty) {
+        return;
+      }
+      final requestModel =
+          QuestionAnswer(question: question, answer: StringBuffer());
+      conversationChats.add(requestModel);
+      final request = http.StreamedRequest(
+        "GET",
+        Uri(
+            scheme: EnvironmentLoader.geminiScheme,
+            host: EnvironmentLoader.geminiHost,
+            port: EnvironmentLoader.geminiPort,
+            path: "/chat-with-gemi/gemi",
+            queryParameters: {"message": question}),
+      );
+      request.headers.addAll({
+        'Authorization':
+            'Bearer ${ref.read(authRepositoryProvider).storageToken()?.accessToken}',
+      });
+
+      unawaited(request.sink.close());
+      final response = await request.send();
+      response.stream.listen((value) {
+        setState(() {
+          final chunk = utf8.decode(value);
+          requestModel.answer.write(chunk);
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            if (ableScrollToEnd) {
+              _scrollController.animateTo(
+                _scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.bounceInOut,
+              );
+            }
+          });
         });
       });
-    });
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   @override

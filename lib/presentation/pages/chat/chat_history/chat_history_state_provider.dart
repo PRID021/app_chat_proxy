@@ -39,4 +39,15 @@ class HistoryScreenStateNotifier extends Notifier<HistoryScreenState> {
     ref.read(loadingStatusNotifierProvider.notifier).markLoadingDone();
     onComplete(rs);
   }
+
+  Future pullToRefresh(Function(bool) onDone) async {
+    final chatRepository = ref.read(chatRepositoryProvider);
+    final rs = await chatRepository.getUserConversations();
+    if (rs != null) {
+      state = LoadingDone(conversations: rs);
+      onDone.call(true);
+    } else {
+      onDone.call(false);
+    }
+  }
 }

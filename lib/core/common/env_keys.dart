@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../../dev/logger.dart';
 
 class EnvKeys {
   static String host = "HOST";
@@ -18,11 +21,18 @@ class EnvironmentLoader {
 
   EnvironmentLoader._internal();
 
-  static void load(DotEnv dotEnv) {
+  static Future<void> load(DotEnv dotEnv) async {
     host = dotEnv.env[EnvKeys.host]!;
     scheme = dotEnv.env[EnvKeys.scheme]!;
     geminiHost = dotEnv.env[EnvKeys.geminiHost]!;
     geminiPort = int.parse(dotEnv.env[EnvKeys.geminiPort]!);
     geminiScheme = dotEnv.env[EnvKeys.geminiScheme]!;
+    if (kDebugMode) {
+      host = const String.fromEnvironment('HOST_BUILD_IP',
+          defaultValue: 'SOME_DEFAULT_VALUE');
+      geminiHost = host;
+      host = "$host:8080";
+      logger.w("Build debug on pc ip: $host");
+    }
   }
 }
